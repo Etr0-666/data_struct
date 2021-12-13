@@ -6,6 +6,16 @@ typedef struct linknode
     struct linknode *next;
 }node;
 typedef node *node_ptr;
+/*
+void printLinkedlist(node_ptr linkedlist){
+    int count = NumNode(linkedlist);
+    node_ptr current = linkedlist;
+    for(int j=0;j<count;j++){
+        printf("Node No.%d = %d\n",j,current->data);
+        current=current->next;
+    }
+}
+*/
 //新建表头
 node_ptr NewList(int data){
     node_ptr head = NULL;
@@ -24,7 +34,7 @@ void addNode(node_ptr linkedlist,int data){
     current->next=newNode;
 }
 //学霸题 数节点
-int countNode(node_ptr linkedlist){
+int NumNode(node_ptr linkedlist){
     node_ptr current;
     int i=1;
     for(current=linkedlist;current->next!=NULL;current=current->next){
@@ -33,8 +43,10 @@ int countNode(node_ptr linkedlist){
     return i;
 }
 //更改节点data
-void changeData(node_ptr linkedlist,int i,int data){
+int changeData(node_ptr linkedlist,int i,int data){
     node_ptr current = linkedlist;
+    int length = NumNode(linkedlist);
+    if(i>length-1){return 0;}
     for(int j=0;j<i;j++){
         if(current->next!=NULL){
             current=current->next;
@@ -62,9 +74,12 @@ void insertData_End(node_ptr linkedlist,int data){
 } 这和add有什么区别
 */
 //中部插入
-void insertData_Mid(node_ptr linkedlist,int i,int data){
-    int length=countNode(linkedlist);
-    if(i==length) addNode(linkedlist,data);
+int insertData_Mid(node_ptr linkedlist,int i,int data){
+    int length=NumNode(linkedlist);
+    if(i==length){
+        addNode(linkedlist,data);
+        return 0;
+    }
 }
 
 int main(){
@@ -74,12 +89,16 @@ int main(){
     int data3=3;
     node_ptr new = NewList(data);
     addNode(new,data2);
-    int count = countNode(new);
+    insertData_Mid(new,2,3);
+    //printLinkedlist(new);
+    changeData(new,0,3);
+    int count = NumNode(new);
     node_ptr new2 = new;
     for(int j=0;j<count;j++){
-        printf("Node No.%d = %d\n",j,new2->data);
+        printf("Node[%d] = %d\n",j,new2->data);
         new2=new2->next;
     }
+    
     /*
     addNode(new,data2);
     printf("%d\n",new->next->data);
