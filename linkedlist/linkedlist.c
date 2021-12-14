@@ -71,15 +71,69 @@ void insertData_End(node_ptr linkedlist,int data){
     for(current=linkedlist;current->next!=NULL;current=current->next);
     newNode = (node*)malloc(sizeof(node));
 
-} 这和add有什么区别
+} 这和addNode有什么区别
 */
 //中部插入
 int insertData_Mid(node_ptr linkedlist,int i,int data){
     int length=NumNode(linkedlist);
+    if(i>length){return 0;}
     if(i==length){
         addNode(linkedlist,data);
         return 0;
     }
+    node_ptr newnode = (node*)malloc(sizeof(node));
+    newnode->data=data;
+    node_ptr current = linkedlist;
+    int j=0;
+    for(j;j<i-1;j++){current=current->next;}
+    newnode->next=current->next;
+    current->next=newnode;
+    current=current->next;
+    return 0;
+}
+
+int delete_node(node_ptr linkedlist,int i){
+    int length=NumNode(linkedlist);
+    if(i>length-1){return 0;}
+    node_ptr current=linkedlist;
+    int j=0;
+    for(j;j<i-1;j++){
+        current=current->next;
+    }
+    node_ptr pending = current->next;
+    if(i==length-1){
+        current->next=NULL;
+    }else{
+        current->next=pending->next;
+    }
+    free(pending);
+    return 1;
+}
+
+int searchValue(node_ptr linkedlist,int value,int *i){
+    int j=0;
+    int length=NumNode(linkedlist);
+    node_ptr current=linkedlist;
+    for(j;j<length;j++){
+        if(current->data==value){
+            *i=j;
+        }
+        current=current->next;
+    }
+    if(current==NULL){return 0;}
+    return 1;
+}
+
+int getValue(node_ptr linkedlist,int i,int *data){
+    if((i<0)){return 0;}
+    int j=0;
+    node_ptr current=linkedlist;
+    for(j;j<i;j++){
+        current=current->next;
+        if(current==NULL){return 0;}
+    }
+    *data=current->data;
+    return 0;
 }
 
 int main(){
@@ -88,10 +142,23 @@ int main(){
     int i=2;
     int data3=3;
     node_ptr new = NewList(data);
+    changeData(new,0,0);
+    addNode(new,1);
+    int ii;
+    int status=searchValue(new,0,&ii);
+    printf("%d\n",ii);
+    status=getValue(new,11,&ii);
+    printf("%d\n",status);
+    /*
     addNode(new,data2);
     insertData_Mid(new,2,3);
     //printLinkedlist(new);
     changeData(new,0,3);
+    insertData_Mid(new,2,4);
+    insertData_Mid(new,4,5);
+    delete_node(new,3);
+    */
+
     int count = NumNode(new);
     node_ptr new2 = new;
     for(int j=0;j<count;j++){
