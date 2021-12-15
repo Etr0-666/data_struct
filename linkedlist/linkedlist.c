@@ -92,6 +92,35 @@ int insertData_Mid(node_ptr linkedlist,int i,int data){
     return 0;
 }
 
+int Insert(node_ptr *linkedlist,int i,int data){
+    if(i==0){
+        node_ptr New=(node*)malloc(sizeof(node));
+        New->data=data;
+        New->next=*linkedlist;
+        *linkedlist=New;
+        return 1;
+    }
+    int j=0;
+    node_ptr current=*linkedlist;
+    while(current&&j<i-1){
+        current=current->next;
+        j++;
+    }
+    if(current->next==NULL){
+        if(i>j+1){return 0;}
+        node_ptr New=(node*)malloc(sizeof(node));
+        New->data=data;
+        New->next=NULL;
+        current->next=New;
+        return 1;
+    }
+    node_ptr New=(node*)malloc(sizeof(node));
+    New->data=data;
+    New->next=current->next;
+    current->next=New;
+    return 1;
+}
+
 int delete_node(node_ptr linkedlist,int i){
     int length=NumNode(linkedlist);
     if(i>length-1){return 0;}
@@ -136,12 +165,28 @@ int getValue(node_ptr linkedlist,int i,int *data){
     return 0;
 }
 
+void deleteLinkedlist(node_ptr linkedlist){
+    node_ptr current=linkedlist;
+    node_ptr nextNode=current->next;
+    do{
+        free(current);
+        if(nextNode==NULL){break;}
+        current=nextNode->next;
+        if(current==NULL){break;}
+        nextNode=current->next;
+    }while(1);
+}
+
 int main(){
     int data=1;
     int data2=2;
     int i=2;
     int data3=3;
-    node_ptr new = NewList(data);
+    node_ptr new = NewList(1);
+    int status = Insert(&new,1,2);
+    status = Insert(&new,3,3);
+    printf("%d\n",status);
+    /*
     changeData(new,0,0);
     addNode(new,1);
     int ii;
@@ -149,6 +194,7 @@ int main(){
     printf("%d\n",ii);
     status=getValue(new,11,&ii);
     printf("%d\n",status);
+    */
     /*
     addNode(new,data2);
     insertData_Mid(new,2,3);
@@ -165,7 +211,7 @@ int main(){
         printf("Node[%d] = %d\n",j,new2->data);
         new2=new2->next;
     }
-    
+    //deleteLinkedlist(new);
     /*
     addNode(new,data2);
     printf("%d\n",new->next->data);
