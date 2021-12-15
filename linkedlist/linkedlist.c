@@ -106,8 +106,8 @@ int Insert(node_ptr *linkedlist,int i,int data){
         current=current->next;
         j++;
     }
+    if(i>j){return 0;}
     if(current->next==NULL){
-        if(i>j+1){return 0;}
         node_ptr New=(node*)malloc(sizeof(node));
         New->data=data;
         New->next=NULL;
@@ -182,9 +182,8 @@ int main(){
     int data2=2;
     int i=2;
     int data3=3;
-    node_ptr new = NewList(1);
-    int status = Insert(&new,1,2);
-    status = Insert(&new,3,3);
+    node_ptr new = NewList(0);
+    int status = Insert(&new,2,2);
     printf("%d\n",status);
     /*
     changeData(new,0,0);
